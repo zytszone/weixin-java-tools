@@ -8,8 +8,12 @@ import me.chanjar.weixin.cp.bean.outxmlbuilder.*;
 import me.chanjar.weixin.cp.util.crypto.WxCpCryptUtil;
 import me.chanjar.weixin.cp.util.xml.XStreamTransformer;
 
+import java.io.Serializable;
+
 @XStreamAlias("xml")
-public abstract class WxCpXmlOutMessage {
+public abstract class WxCpXmlOutMessage implements Serializable {
+
+  private static final long serialVersionUID = 1418629839964153110L;
 
   @XStreamAlias("ToUserName")
   @XStreamConverter(value = XStreamCDataConverter.class)
@@ -62,7 +66,7 @@ public abstract class WxCpXmlOutMessage {
   }
 
   public String getToUserName() {
-    return toUserName;
+    return this.toUserName;
   }
 
   public void setToUserName(String toUserName) {
@@ -70,7 +74,7 @@ public abstract class WxCpXmlOutMessage {
   }
 
   public String getFromUserName() {
-    return fromUserName;
+    return this.fromUserName;
   }
 
   public void setFromUserName(String fromUserName) {
@@ -78,7 +82,7 @@ public abstract class WxCpXmlOutMessage {
   }
 
   public Long getCreateTime() {
-    return createTime;
+    return this.createTime;
   }
 
   public void setCreateTime(Long createTime) {
@@ -86,7 +90,7 @@ public abstract class WxCpXmlOutMessage {
   }
 
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
 
   public void setMsgType(String msgType) {

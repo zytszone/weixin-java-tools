@@ -1,5 +1,7 @@
 package me.chanjar.weixin.cp.bean;
 
+import me.chanjar.weixin.cp.bean.article.MpnewsArticle;
+import me.chanjar.weixin.cp.bean.article.NewArticle;
 import me.chanjar.weixin.cp.bean.messagebuilder.*;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
@@ -14,10 +16,11 @@ import java.util.List;
  */
 public class WxCpMessage implements Serializable {
 
+  private static final long serialVersionUID = -2082278303476631708L;
   private String toUser;
   private String toParty;
   private String toTag;
-  private String agentId;
+  private Integer agentId;
   private String msgType;
   private String content;
   private String mediaId;
@@ -27,7 +30,16 @@ public class WxCpMessage implements Serializable {
   private String musicUrl;
   private String hqMusicUrl;
   private String safe;
-  private List<WxArticle> articles = new ArrayList<WxArticle>();
+  private List<NewArticle> articles = new ArrayList<>();
+  private List<MpnewsArticle> mpnewsArticles = new ArrayList<>();
+
+  public List<MpnewsArticle> getMpnewsArticles() {
+    return mpnewsArticles;
+  }
+
+  public void setMpnewsArticles(List<MpnewsArticle> mpnewsArticles) {
+    this.mpnewsArticles = mpnewsArticles;
+  }
 
   /**
    * 获得文本消息builder
@@ -65,6 +77,13 @@ public class WxCpMessage implements Serializable {
   }
 
   /**
+   * 获得mpnews图文消息builder
+   */
+  public static MpnewsBuilder MPNEWS() {
+    return new MpnewsBuilder();
+  }
+
+  /**
    * 获得文件消息builder
    */
   public static FileBuilder FILE() {
@@ -72,7 +91,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getToUser() {
-    return toUser;
+    return this.toUser;
   }
 
   public void setToUser(String toUser) {
@@ -80,7 +99,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getToParty() {
-    return toParty;
+    return this.toParty;
   }
 
   public void setToParty(String toParty) {
@@ -88,23 +107,23 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getToTag() {
-    return toTag;
+    return this.toTag;
   }
 
   public void setToTag(String toTag) {
     this.toTag = toTag;
   }
 
-  public String getAgentId() {
-    return agentId;
+  public Integer getAgentId() {
+    return this.agentId;
   }
 
-  public void setAgentId(String agentId) {
+  public void setAgentId(Integer agentId) {
     this.agentId = agentId;
   }
 
   public String getMsgType() {
-    return msgType;
+    return this.msgType;
   }
 
   /**
@@ -116,16 +135,17 @@ public class WxCpMessage implements Serializable {
    * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_MUSIC}
    * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_VIDEO}
    * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_NEWS}
+   * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_MPNEWS}
    * </pre>
    *
-   * @param msgType
+   * @param msgType 消息类型
    */
   public void setMsgType(String msgType) {
     this.msgType = msgType;
   }
 
   public String getSafe() {
-    return safe;
+    return this.safe;
   }
 
   public void setSafe(String safe) {
@@ -133,7 +153,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getContent() {
-    return content;
+    return this.content;
   }
 
   public void setContent(String content) {
@@ -141,7 +161,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getMediaId() {
-    return mediaId;
+    return this.mediaId;
   }
 
   public void setMediaId(String mediaId) {
@@ -149,7 +169,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getThumbMediaId() {
-    return thumbMediaId;
+    return this.thumbMediaId;
   }
 
   public void setThumbMediaId(String thumbMediaId) {
@@ -157,7 +177,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getTitle() {
-    return title;
+    return this.title;
   }
 
   public void setTitle(String title) {
@@ -165,7 +185,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getDescription() {
-    return description;
+    return this.description;
   }
 
   public void setDescription(String description) {
@@ -173,7 +193,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getMusicUrl() {
-    return musicUrl;
+    return this.musicUrl;
   }
 
   public void setMusicUrl(String musicUrl) {
@@ -181,64 +201,23 @@ public class WxCpMessage implements Serializable {
   }
 
   public String getHqMusicUrl() {
-    return hqMusicUrl;
+    return this.hqMusicUrl;
   }
 
   public void setHqMusicUrl(String hqMusicUrl) {
     this.hqMusicUrl = hqMusicUrl;
   }
 
-  public List<WxArticle> getArticles() {
-    return articles;
+  public List<NewArticle> getArticles() {
+    return this.articles;
   }
 
-  public void setArticles(List<WxArticle> articles) {
+  public void setArticles(List<NewArticle> articles) {
     this.articles = articles;
   }
 
   public String toJson() {
     return WxCpGsonBuilder.INSTANCE.create().toJson(this);
-  }
-
-  public static class WxArticle {
-
-    private String title;
-    private String description;
-    private String url;
-    private String picUrl;
-
-    public String getTitle() {
-      return title;
-    }
-
-    public void setTitle(String title) {
-      this.title = title;
-    }
-
-    public String getDescription() {
-      return description;
-    }
-
-    public void setDescription(String description) {
-      this.description = description;
-    }
-
-    public String getUrl() {
-      return url;
-    }
-
-    public void setUrl(String url) {
-      this.url = url;
-    }
-
-    public String getPicUrl() {
-      return picUrl;
-    }
-
-    public void setPicUrl(String picUrl) {
-      this.picUrl = picUrl;
-    }
-
   }
 
 }

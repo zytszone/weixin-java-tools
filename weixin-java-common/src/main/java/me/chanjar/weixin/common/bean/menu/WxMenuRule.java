@@ -1,9 +1,12 @@
 package me.chanjar.weixin.common.bean.menu;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import me.chanjar.weixin.common.util.ToStringUtils;
 
-public class WxMenuRule {
+import java.io.Serializable;
+
+public class WxMenuRule implements Serializable {
+  private static final long serialVersionUID = -4587181819499286670L;
+
   private String tagId;
   private String sex;
   private String country;
@@ -13,7 +16,7 @@ public class WxMenuRule {
   private String language;
 
   public String getTagId() {
-    return tagId;
+    return this.tagId;
   }
 
   public void setTagId(String tagId) {
@@ -21,7 +24,7 @@ public class WxMenuRule {
   }
 
   public String getSex() {
-    return sex;
+    return this.sex;
   }
 
   public void setSex(String sex) {
@@ -29,7 +32,7 @@ public class WxMenuRule {
   }
 
   public String getCountry() {
-    return country;
+    return this.country;
   }
 
   public void setCountry(String country) {
@@ -37,7 +40,7 @@ public class WxMenuRule {
   }
 
   public String getProvince() {
-    return province;
+    return this.province;
   }
 
   public void setProvince(String province) {
@@ -45,7 +48,7 @@ public class WxMenuRule {
   }
 
   public String getCity() {
-    return city;
+    return this.city;
   }
 
   public void setCity(String city) {
@@ -53,7 +56,7 @@ public class WxMenuRule {
   }
 
   public String getClientPlatformType() {
-    return clientPlatformType;
+    return this.clientPlatformType;
   }
 
   public void setClientPlatformType(String clientPlatformType) {
@@ -61,7 +64,7 @@ public class WxMenuRule {
   }
 
   public String getLanguage() {
-    return language;
+    return this.language;
   }
 
   public void setLanguage(String language) {
@@ -70,6 +73,6 @@ public class WxMenuRule {
 
   @Override
   public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    return ToStringUtils.toSimpleString(this);
   }
 }

@@ -36,9 +36,9 @@ public class WxCpMessageRouterRule {
 
   private Integer agentId;
 
-  private List<WxCpMessageHandler> handlers = new ArrayList<WxCpMessageHandler>();
+  private List<WxCpMessageHandler> handlers = new ArrayList<>();
 
-  private List<WxCpMessageInterceptor> interceptors = new ArrayList<WxCpMessageInterceptor>();
+  private List<WxCpMessageInterceptor> interceptors = new ArrayList<>();
 
   protected WxCpMessageRouterRule(WxCpMessageRouter routerBuilder) {
     this.routerBuilder = routerBuilder;
@@ -202,24 +202,24 @@ public class WxCpMessageRouterRule {
 
   protected boolean test(WxCpXmlMessage wxMessage) {
     return
-            (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
-                    &&
-                    (this.agentId == null || this.agentId.equals(wxMessage.getAgentId()))
-                    &&
-                    (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
-                    &&
-                    (this.event == null || this.event.equals(wxMessage.getEvent()))
-                    &&
-                    (this.eventKey == null || this.eventKey.equals(wxMessage.getEventKey()))
-                    &&
-                    (this.content == null || this.content
-                            .equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
-                    &&
-                    (this.rContent == null || Pattern
-                            .matches(this.rContent, wxMessage.getContent() == null ? "" : wxMessage.getContent().trim()))
-                    &&
-                    (this.matcher == null || this.matcher.match(wxMessage))
-            ;
+      (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
+        &&
+        (this.agentId == null || this.agentId.equals(wxMessage.getAgentId()))
+        &&
+        (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
+        &&
+        (this.event == null || this.event.equals(wxMessage.getEvent()))
+        &&
+        (this.eventKey == null || this.eventKey.equals(wxMessage.getEventKey()))
+        &&
+        (this.content == null || this.content
+          .equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
+        &&
+        (this.rContent == null || Pattern
+          .matches(this.rContent, wxMessage.getContent() == null ? "" : wxMessage.getContent().trim()))
+        &&
+        (this.matcher == null || this.matcher.match(wxMessage))
+      ;
   }
 
   /**
@@ -235,7 +235,7 @@ public class WxCpMessageRouterRule {
 
     try {
 
-      Map<String, Object> context = new HashMap<String, Object>();
+      Map<String, Object> context = new HashMap<>();
       // 如果拦截器不通过
       for (WxCpMessageInterceptor interceptor : this.interceptors) {
         if (!interceptor.intercept(wxMessage, context, wxCpService, sessionManager)) {
@@ -300,7 +300,7 @@ public class WxCpMessageRouterRule {
   }
 
   public boolean isAsync() {
-    return async;
+    return this.async;
   }
 
   public void setAsync(boolean async) {
@@ -308,7 +308,7 @@ public class WxCpMessageRouterRule {
   }
 
   public boolean isReEnter() {
-    return reEnter;
+    return this.reEnter;
   }
 
   public void setReEnter(boolean reEnter) {

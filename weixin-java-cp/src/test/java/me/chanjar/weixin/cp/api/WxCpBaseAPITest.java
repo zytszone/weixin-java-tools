@@ -2,7 +2,7 @@ package me.chanjar.weixin.cp.api;
 
 import com.google.inject.Inject;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -20,9 +20,9 @@ public class WxCpBaseAPITest {
   protected WxCpServiceImpl wxService;
 
   public void testRefreshAccessToken() throws WxErrorException {
-    WxCpConfigStorage configStorage = wxService.wxCpConfigStorage;
+    WxCpConfigStorage configStorage = this.wxService.configStorage;
     String before = configStorage.getAccessToken();
-    wxService.getAccessToken(false);
+    this.wxService.getAccessToken(false);
 
     String after = configStorage.getAccessToken();
 

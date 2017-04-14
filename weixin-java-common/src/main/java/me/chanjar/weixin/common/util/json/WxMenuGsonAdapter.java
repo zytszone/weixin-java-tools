@@ -8,20 +8,12 @@
  */
 package me.chanjar.weixin.common.util.json;
 
-import java.lang.reflect.Type;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-
+import com.google.gson.*;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.bean.menu.WxMenuRule;
+
+import java.lang.reflect.Type;
 
 
 /**
@@ -29,6 +21,7 @@ import me.chanjar.weixin.common.bean.menu.WxMenuRule;
  */
 public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializer<WxMenu> {
 
+  @Override
   public JsonElement serialize(WxMenu menu, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject json = new JsonObject();
 
@@ -53,6 +46,8 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     buttonJson.addProperty("key", button.getKey());
     buttonJson.addProperty("url", button.getUrl());
     buttonJson.addProperty("media_id", button.getMediaId());
+    buttonJson.addProperty("appid", button.getAppId());
+    buttonJson.addProperty("pagepath", button.getPagePath());
     if (button.getSubButtons() != null && button.getSubButtons().size() > 0) {
       JsonArray buttonArray = new JsonArray();
       for (WxMenuButton sub_button : button.getSubButtons()) {
@@ -75,6 +70,21 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     return matchRule;
   }
 
+  private WxMenuRule convertToRule(JsonObject json) {
+    WxMenuRule menuRule = new WxMenuRule();
+    //变态的微信接口，这里居然反人类的使用和序列化时不一样的名字
+    //menuRule.setTagId(GsonHelper.getString(json,"tag_id"));
+    menuRule.setTagId(GsonHelper.getString(json, "group_id"));
+    menuRule.setSex(GsonHelper.getString(json, "sex"));
+    menuRule.setCountry(GsonHelper.getString(json, "country"));
+    menuRule.setProvince(GsonHelper.getString(json, "province"));
+    menuRule.setCity(GsonHelper.getString(json, "city"));
+    menuRule.setClientPlatformType(GsonHelper.getString(json, "client_platform_type"));
+    menuRule.setLanguage(GsonHelper.getString(json, "language"));
+    return menuRule;
+  }
+
+  @Override
   public WxMenu deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     /*
      * 操蛋的微信
@@ -82,8 +92,7 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
      * 查询菜单时是 { menu : { button : ... } }
      */
     WxMenu menu = new WxMenu();
-    JsonObject menuJson = json.getAsJsonObject().get("menu").getAsJsonObject();
-    JsonArray buttonsJson = menuJson.get("button").getAsJsonArray();
+    JsonArray buttonsJson = json.getAsJsonObject().get("menu").getAsJsonObject().get("button").getAsJsonArray();
     for (int i = 0; i < buttonsJson.size(); i++) {
       JsonObject buttonJson = buttonsJson.get(i).getAsJsonObject();
       WxMenuButton button = convertFromJson(buttonJson);
@@ -107,6 +116,8 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     button.setUrl(GsonHelper.getString(json, "url"));
     button.setType(GsonHelper.getString(json, "type"));
     button.setMediaId(GsonHelper.getString(json, "media_id"));
+    button.setAppId(GsonHelper.getString(json, "appid"));
+    button.setPagePath(GsonHelper.getString(json, "pagepath"));
     return button;
   }
 

@@ -3,8 +3,8 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.api.WxErrorExceptionHandler;
-import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -168,7 +168,7 @@ public class WxMpMessageRouterRule {
    */
   protected boolean test(WxMpXmlMessage wxMessage) {
     return
-        (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
+        (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUser()))
             &&
             (this.msgType == null || this.msgType.toLowerCase().equals((wxMessage.getMsgType()==null?null:wxMessage.getMsgType().toLowerCase())))
             &&

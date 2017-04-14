@@ -20,8 +20,7 @@ public class WxError implements Serializable {
   private String json;
 
   public static WxError fromJson(String json) {
-    WxError error = WxGsonBuilder.create().fromJson(json, WxError.class);
-    return error;
+    return WxGsonBuilder.create().fromJson(json, WxError.class);
   }
 
   public static Builder newBuilder() {
@@ -29,7 +28,7 @@ public class WxError implements Serializable {
   }
 
   public int getErrorCode() {
-    return errorCode;
+    return this.errorCode;
   }
 
   public void setErrorCode(int errorCode) {
@@ -37,7 +36,7 @@ public class WxError implements Serializable {
   }
 
   public String getErrorMsg() {
-    return errorMsg;
+    return this.errorMsg;
   }
 
   public void setErrorMsg(String errorMsg) {
@@ -45,7 +44,7 @@ public class WxError implements Serializable {
   }
 
   public String getJson() {
-    return json;
+    return this.json;
   }
 
   public void setJson(String json) {
@@ -54,10 +53,10 @@ public class WxError implements Serializable {
 
   @Override
   public String toString() {
-    if (json != null) {
-      return json;
+    if (this.json != null) {
+      return this.json;
     }
-    return "错误: Code=" + errorCode + ", Msg=" + errorMsg;
+    return "错误: Code=" + this.errorCode + ", Msg=" + this.errorMsg;
   }
 
   public static class Builder {

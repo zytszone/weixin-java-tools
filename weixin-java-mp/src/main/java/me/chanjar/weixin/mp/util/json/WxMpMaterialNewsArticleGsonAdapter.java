@@ -10,7 +10,7 @@ package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
-import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews;
 
 import java.lang.reflect.Type;
 
@@ -21,7 +21,7 @@ public class WxMpMaterialNewsArticleGsonAdapter implements JsonSerializer<WxMpMa
     JsonObject articleJson = new JsonObject();
 
     articleJson.addProperty("thumb_media_id", article.getThumbMediaId());
-    articleJson.addProperty("thumb_url",article.getThumbUrl());
+    articleJson.addProperty("thumb_url", article.getThumbUrl());
     articleJson.addProperty("title", article.getTitle());
     articleJson.addProperty("content", article.getContent());
     if (null != article.getAuthor()) {
@@ -70,7 +70,7 @@ public class WxMpMaterialNewsArticleGsonAdapter implements JsonSerializer<WxMpMa
       article.setThumbMediaId(GsonHelper.getAsString(thumbMediaId));
     }
     JsonElement thumbUrl = articleInfo.get("thumb_url");
-    if(thumbUrl != null && !thumbUrl.isJsonNull()) {
+    if (thumbUrl != null && !thumbUrl.isJsonNull()) {
       article.setThumbUrl(GsonHelper.getAsString(thumbUrl));
     }
     JsonElement showCoverPic = articleInfo.get("show_cover_pic");

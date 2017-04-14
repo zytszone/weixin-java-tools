@@ -19,7 +19,10 @@ public class WxCpBusyRetryTest {
     WxCpService service = new WxCpServiceImpl() {
 
       @Override
-      protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+      protected synchronized <T, E> T executeInternal(
+          RequestExecutor<T, E> executor, String uri, E data)
+          throws WxErrorException {
+        this.log.info("Executed");
         WxError error = new WxError();
         error.setErrorCode(-1);
         throw new WxErrorException(error);

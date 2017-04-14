@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.result.*;
 
@@ -16,6 +17,15 @@ import java.util.Date;
  * @author Binary Wang
  */
 public interface WxMpKefuService {
+
+  /**
+   * <pre>
+   * 发送客服消息
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547&token=&lang=zh_CN">发送客服消息</a>
+   * 接口url格式：https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN
+   * </pre>
+   */
+  boolean sendKefuMessage(WxMpKefuMessage message) throws WxErrorException;
 
   //*******************客服管理接口***********************//
 
