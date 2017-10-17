@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 public class WxMpTemplateIndustry implements Serializable {
   private static final long serialVersionUID = -7700398224795914722L;
+
   private Industry primaryIndustry;
   private Industry secondIndustry;
 
@@ -19,6 +20,35 @@ public class WxMpTemplateIndustry implements Serializable {
 
   public WxMpTemplateIndustry(Industry primaryIndustry, Industry secondIndustry) {
     this.primaryIndustry = primaryIndustry;
+    this.secondIndustry = secondIndustry;
+  }
+
+  public static WxMpTemplateIndustry fromJson(String json) {
+    return WxMpGsonBuilder.create().fromJson(json, WxMpTemplateIndustry.class);
+  }
+
+  @Override
+  public String toString() {
+    return ToStringUtils.toSimpleString(this);
+  }
+
+  public String toJson() {
+    return WxMpGsonBuilder.create().toJson(this);
+  }
+
+  public Industry getPrimaryIndustry() {
+    return this.primaryIndustry;
+  }
+
+  public void setPrimaryIndustry(Industry primaryIndustry) {
+    this.primaryIndustry = primaryIndustry;
+  }
+
+  public Industry getSecondIndustry() {
+    return this.secondIndustry;
+  }
+
+  public void setSecondIndustry(Industry secondIndustry) {
     this.secondIndustry = secondIndustry;
   }
 
@@ -73,34 +103,5 @@ public class WxMpTemplateIndustry implements Serializable {
     public void setSecondClass(String secondClass) {
       this.secondClass = secondClass;
     }
-  }
-
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
-  }
-
-  public static WxMpTemplateIndustry fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpTemplateIndustry.class);
-  }
-
-  public String toJson() {
-    return WxMpGsonBuilder.create().toJson(this);
-  }
-
-  public Industry getPrimaryIndustry() {
-    return this.primaryIndustry;
-  }
-
-  public void setPrimaryIndustry(Industry primaryIndustry) {
-    this.primaryIndustry = primaryIndustry;
-  }
-
-  public Industry getSecondIndustry() {
-    return this.secondIndustry;
-  }
-
-  public void setSecondIndustry(Industry secondIndustry) {
-    this.secondIndustry = secondIndustry;
   }
 }

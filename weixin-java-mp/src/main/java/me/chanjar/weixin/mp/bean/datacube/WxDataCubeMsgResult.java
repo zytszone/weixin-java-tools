@@ -1,21 +1,20 @@
 package me.chanjar.weixin.mp.bean.datacube;
 
-import java.util.List;
-
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
-
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
+import java.util.List;
 
 /**
  * 消息分析数据接口返回结果对象
+ *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  *         Created by Binary Wang on 2016/8/29.
  */
 public class WxDataCubeMsgResult extends WxDataCubeBaseResult {
-
-  private static final JsonParser JSON_PARSER = new JsonParser();
+  private static final long serialVersionUID = 6932121822150573659L;
 
   /**
    * ref_hour
@@ -65,6 +64,13 @@ public class WxDataCubeMsgResult extends WxDataCubeBaseResult {
    */
   @SerializedName("ori_page_read_user")
   private Integer oriPageReadUser;
+
+  public static List<WxDataCubeMsgResult> fromJson(String json) {
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(
+      JSON_PARSER.parse(json).getAsJsonObject().get("list"),
+      new TypeToken<List<WxDataCubeMsgResult>>() {
+      }.getType());
+  }
 
   public Integer getRefHour() {
     return this.refHour;
@@ -120,13 +126,6 @@ public class WxDataCubeMsgResult extends WxDataCubeBaseResult {
 
   public void setOriPageReadUser(Integer oriPageReadUser) {
     this.oriPageReadUser = oriPageReadUser;
-  }
-
-  public static List<WxDataCubeMsgResult> fromJson(String json) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(
-        JSON_PARSER.parse(json).getAsJsonObject().get("list"),
-        new TypeToken<List<WxDataCubeMsgResult>>() {
-        }.getType());
   }
 
 }

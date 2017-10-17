@@ -4,12 +4,15 @@ import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Binary Wang on 2016/7/15.
  */
-public class WxMpKfMsgList {
+public class WxMpKfMsgList implements Serializable {
+  private static final long serialVersionUID = 4524296707435188202L;
+
   @SerializedName("recordlist")
   private List<WxMpKfMsgRecord> records;
 
@@ -18,6 +21,10 @@ public class WxMpKfMsgList {
 
   @SerializedName("msgid")
   private Long msgId;
+
+  public static WxMpKfMsgList fromJson(String responseContent) {
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(responseContent, WxMpKfMsgList.class);
+  }
 
   public List<WxMpKfMsgRecord> getRecords() {
     return this.records;
@@ -46,9 +53,5 @@ public class WxMpKfMsgList {
   @Override
   public String toString() {
     return ToStringUtils.toSimpleString(this);
-  }
-
-  public static WxMpKfMsgList fromJson(String responseContent) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(responseContent, WxMpKfMsgList.class);
   }
 }

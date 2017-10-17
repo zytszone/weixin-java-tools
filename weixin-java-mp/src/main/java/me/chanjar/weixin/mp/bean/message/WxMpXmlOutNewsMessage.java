@@ -5,22 +5,18 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @XStreamAlias("xml")
 public class WxMpXmlOutNewsMessage extends WxMpXmlOutMessage {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = -4604402850905714772L;
-
-  @XStreamAlias("ArticleCount")
-  protected int articleCount;
 
   @XStreamAlias("Articles")
   protected final List<Item> articles = new ArrayList<>();
+  @XStreamAlias("ArticleCount")
+  protected int articleCount;
 
   public WxMpXmlOutNewsMessage() {
     this.msgType = WxConsts.XML_MSG_NEWS;
@@ -41,22 +37,24 @@ public class WxMpXmlOutNewsMessage extends WxMpXmlOutMessage {
 
 
   @XStreamAlias("item")
-  public static class Item {
+  public static class Item implements Serializable {
+
+    private static final long serialVersionUID = -4971456355028904754L;
 
     @XStreamAlias("Title")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String Title;
 
     @XStreamAlias("Description")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String Description;
 
     @XStreamAlias("PicUrl")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String PicUrl;
 
     @XStreamAlias("Url")
-    @XStreamConverter(value=XStreamCDataConverter.class)
+    @XStreamConverter(value = XStreamCDataConverter.class)
     private String Url;
 
     public String getTitle() {

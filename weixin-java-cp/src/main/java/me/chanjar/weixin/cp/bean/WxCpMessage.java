@@ -30,22 +30,22 @@ public class WxCpMessage implements Serializable {
   private String musicUrl;
   private String hqMusicUrl;
   private String safe;
+  private String url;
   private List<NewArticle> articles = new ArrayList<>();
   private List<MpnewsArticle> mpnewsArticles = new ArrayList<>();
-
-  public List<MpnewsArticle> getMpnewsArticles() {
-    return mpnewsArticles;
-  }
-
-  public void setMpnewsArticles(List<MpnewsArticle> mpnewsArticles) {
-    this.mpnewsArticles = mpnewsArticles;
-  }
 
   /**
    * 获得文本消息builder
    */
   public static TextBuilder TEXT() {
     return new TextBuilder();
+  }
+
+  /**
+   * 获得文本卡片消息builder
+   */
+  public static TextCardBuilder TEXTCARD() {
+    return new TextCardBuilder();
   }
 
   /**
@@ -88,6 +88,14 @@ public class WxCpMessage implements Serializable {
    */
   public static FileBuilder FILE() {
     return new FileBuilder();
+  }
+
+  public List<MpnewsArticle> getMpnewsArticles() {
+    return mpnewsArticles;
+  }
+
+  public void setMpnewsArticles(List<MpnewsArticle> mpnewsArticles) {
+    this.mpnewsArticles = mpnewsArticles;
   }
 
   public String getToUser() {
@@ -220,4 +228,11 @@ public class WxCpMessage implements Serializable {
     return WxCpGsonBuilder.INSTANCE.create().toJson(this);
   }
 
+  public String getUrl() {
+    return this.url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
 }

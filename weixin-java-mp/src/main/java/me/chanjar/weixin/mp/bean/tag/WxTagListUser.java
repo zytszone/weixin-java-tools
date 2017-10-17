@@ -4,17 +4,38 @@ import com.google.gson.annotations.SerializedName;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
+ * <pre>
  * 获取标签下粉丝列表的结果对象
+ * Created by Binary Wang on 2016-09-19.
+ * </pre>
+ *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-09-19.
  */
-public class WxTagListUser {
+public class WxTagListUser implements Serializable {
+  private static final long serialVersionUID = -4551768374200676112L;
+
+  /**
+   * "count":2,这次获取的粉丝数量
+   */
+  @SerializedName("count")
+  private Integer count;
+  /**
+   * "data" 粉丝列表
+   */
+  @SerializedName("data")
+  private WxTagListUserData data;
+  /**
+   * "next_openid" 拉取列表最后一个用户的openid
+   */
+  @SerializedName("next_openid")
+  private String nextOpenid;
 
   public static WxTagListUser fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json,WxTagListUser.class);
+    return WxMpGsonBuilder.create().fromJson(json, WxTagListUser.class);
   }
 
   public String toJson() {
@@ -25,24 +46,6 @@ public class WxTagListUser {
   public String toString() {
     return ToStringUtils.toSimpleString(this);
   }
-
-  /**
-   *"count":2,这次获取的粉丝数量
-   */
-  @SerializedName("count")
-  private Integer count;
-
-  /**
-   *"data" 粉丝列表
-   */
-  @SerializedName("data")
-  private WxTagListUserData data;
-
-  /**
-   *"next_openid" 拉取列表最后一个用户的openid
-   */
-  @SerializedName("next_openid")
-  private String nextOpenid;
 
   public Integer getCount() {
     return this.count;
@@ -68,17 +71,19 @@ public class WxTagListUser {
     this.nextOpenid = nextOpenid;
   }
 
-  public static class WxTagListUserData {
-    @Override
-    public String toString() {
-      return ToStringUtils.toSimpleString(this);
-    }
+  public static class WxTagListUserData implements Serializable {
+    private static final long serialVersionUID = -8584537400336245701L;
 
     /**
      * openid 列表
      */
     @SerializedName("openid")
     private List<String> openidList;
+
+    @Override
+    public String toString() {
+      return ToStringUtils.toSimpleString(this);
+    }
 
     public List<String> getOpenidList() {
       return this.openidList;

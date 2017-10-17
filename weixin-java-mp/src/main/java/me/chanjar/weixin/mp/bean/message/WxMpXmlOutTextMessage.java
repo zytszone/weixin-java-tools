@@ -7,13 +7,10 @@ import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
 @XStreamAlias("xml")
 public class WxMpXmlOutTextMessage extends WxMpXmlOutMessage {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = -3972786455288763361L;
+
   @XStreamAlias("Content")
-  @XStreamConverter(value=XStreamCDataConverter.class)
+  @XStreamConverter(value = XStreamCDataConverter.class)
   private String content;
 
   public WxMpXmlOutTextMessage() {

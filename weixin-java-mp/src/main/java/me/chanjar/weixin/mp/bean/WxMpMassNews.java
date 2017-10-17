@@ -13,11 +13,8 @@ import java.util.List;
  * @author chanjarster
  */
 public class WxMpMassNews implements Serializable {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = 565937155013581016L;
+
   private List<WxMpMassNewsArticle> articles = new ArrayList<>();
 
   public List<WxMpMassNewsArticle> getArticles() {
@@ -34,6 +31,11 @@ public class WxMpMassNews implements Serializable {
 
   public boolean isEmpty() {
     return this.articles == null || this.articles.isEmpty();
+  }
+
+  @Override
+  public String toString() {
+    return ToStringUtils.toSimpleString(this);
   }
 
   /**
@@ -140,10 +142,5 @@ public class WxMpMassNews implements Serializable {
     public String toString() {
       return ToStringUtils.toSimpleString(this);
     }
-  }
-
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
   }
 }

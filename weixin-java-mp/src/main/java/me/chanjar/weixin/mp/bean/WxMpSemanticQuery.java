@@ -6,17 +6,14 @@ import java.io.Serializable;
 
 /**
  * 语义理解查询用对象
- *
+ * <p>
  * http://mp.weixin.qq.com/wiki/index.php?title=语义理解
  *
  * @author Daniel Qian
  */
 public class WxMpSemanticQuery implements Serializable {
-
-  /**
-   * 
-   */
   private static final long serialVersionUID = 7685873048199870690L;
+
   private String query;
   private String category;
   private Float latitude;

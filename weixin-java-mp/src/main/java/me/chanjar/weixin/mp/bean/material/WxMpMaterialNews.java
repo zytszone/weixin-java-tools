@@ -4,11 +4,15 @@ import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WxMpMaterialNews implements Serializable {
   private static final long serialVersionUID = -3283203652013494976L;
+
+  private Date createdTime;
+  private Date updatedTime;
 
   private List<WxMpMaterialNewsArticle> articles = new ArrayList<>();
 
@@ -28,6 +32,27 @@ public class WxMpMaterialNews implements Serializable {
     return this.articles == null || this.articles.isEmpty();
   }
 
+  public Date getCreatedTime() {
+    return this.createdTime;
+  }
+
+  public void setCreatedTime(Date createdTime) {
+    this.createdTime = createdTime;
+  }
+
+  public Date getUpdatedTime() {
+    return this.updatedTime;
+  }
+
+  public void setUpdatedTime(Date updatedTime) {
+    this.updatedTime = updatedTime;
+  }
+
+  @Override
+  public String toString() {
+    return this.toJson();
+  }
+
   /**
    * <pre>
    * 群发图文消息article
@@ -39,6 +64,8 @@ public class WxMpMaterialNews implements Serializable {
    * 6. digest          图文消息的描述
    * 7. showCoverPic  是否显示封面，true为显示，false为不显示
    * 8. url           点击图文消息跳转链接
+   * 9. need_open_comment（新增字段）	否	Uint32	是否打开评论，0不打开，1打开
+   * 10. only_fans_can_comment（新增字段）	否	Uint32	是否粉丝才可评论，0所有人可评论，1粉丝才可评论
    * </pre>
    *
    * @author chanjarster
@@ -79,8 +106,20 @@ public class WxMpMaterialNews implements Serializable {
 
     /**
      * 点击图文消息跳转链接
-    */
+     */
     private String url;
+
+    /**
+     * need_open_comment
+     * 是否打开评论，0不打开，1打开
+     */
+    private Boolean needOpenComment;
+
+    /**
+     * only_fans_can_comment
+     * 是否粉丝才可评论，0所有人可评论，1粉丝才可评论
+     */
+    private Boolean onlyFansCanComment;
 
     public String getThumbMediaId() {
       return this.thumbMediaId;
@@ -139,11 +178,11 @@ public class WxMpMaterialNews implements Serializable {
     }
 
     public String getUrl() {
-        return this.url;
+      return this.url;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+      this.url = url;
     }
 
     public String getThumbUrl() {
@@ -154,14 +193,25 @@ public class WxMpMaterialNews implements Serializable {
       this.thumbUrl = thumbUrl;
     }
 
+    public Boolean getNeedOpenComment() {
+      return this.needOpenComment;
+    }
+
+    public void setNeedOpenComment(Boolean needOpenComment) {
+      this.needOpenComment = needOpenComment;
+    }
+
+    public Boolean getOnlyFansCanComment() {
+      return this.onlyFansCanComment;
+    }
+
+    public void setOnlyFansCanComment(Boolean onlyFansCanComment) {
+      this.onlyFansCanComment = onlyFansCanComment;
+    }
+
     @Override
     public String toString() {
       return ToStringUtils.toSimpleString(this);
     }
-  }
-
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
   }
 }

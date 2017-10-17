@@ -6,6 +6,7 @@ import me.chanjar.weixin.common.bean.menu.WxMenuRule;
 import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,7 +16,9 @@ import java.util.List;
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  * </pre>
  */
-public class WxMpMenu {
+public class WxMpMenu implements Serializable {
+  private static final long serialVersionUID = -5794350513426702252L;
+
   @SerializedName("menu")
   private WxMpConditionalMenu menu;
 
@@ -51,7 +54,9 @@ public class WxMpMenu {
     return WxGsonBuilder.create().toJson(this);
   }
 
-  public static class WxMpConditionalMenu {
+  public static class WxMpConditionalMenu implements Serializable {
+    private static final long serialVersionUID = -2279946921755382289L;
+
     @SerializedName("button")
     private List<WxMenuButton> buttons;
     @SerializedName("matchrule")

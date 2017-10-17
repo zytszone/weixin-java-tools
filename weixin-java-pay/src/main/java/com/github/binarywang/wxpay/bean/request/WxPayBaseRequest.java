@@ -1,6 +1,7 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.util.SignUtils;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -16,108 +17,96 @@ import java.math.BigDecimal;
  * <pre>
  * Created by Binary Wang on 2016-10-24.
  *  微信支付请求对象共用的参数存放类
- * 注释中各行每个字段描述对应如下：
- * <li>字段名
- * <li>变量名
- * <li>是否必填
- * <li>类型
- * <li>示例值
- * <li>描述
  * </pre>
  *
  * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
  */
 public abstract class WxPayBaseRequest {
   /**
-   * 检查请求参数内容，包括必填参数以及特殊约束
-   */
-  protected void checkFields() throws WxErrorException {
-    //check required fields
-    BeanUtils.checkRequiredFields(this);
-
-    //check other parameters
-    this.checkConstraints();
-  }
-
-  /**
-   * 检查约束情况
-   */
-  protected abstract void checkConstraints();
-
-  /**
    * <pre>
-   * 公众账号ID
-   * appid
-   * 是
-   * String(32)
-   * wxd678efh567hg6787
-   * 微信分配的公众账号ID（企业号corpid即为此appId）
+   * 字段名：公众账号ID
+   * 变量名：appid
+   * 是否必填：是
+   * 类型：String(32)
+   * 示例值：wxd678efh567hg6787
+   * 描述：微信分配的公众账号ID（企业号corpid即为此appId）
    * </pre>
    */
   @XStreamAlias("appid")
   protected String appid;
   /**
    * <pre>
-   * 商户号
-   * mch_id
-   * 是
-   * String(32)
-   * 1230000109
-   * 微信支付分配的商户号
+   * 字段名：商户号
+   * 变量名：mch_id
+   * 是否必填：是
+   * 类型：String(32)
+   * 示例值：1230000109
+   * 描述：微信支付分配的商户号
    * </pre>
    */
   @XStreamAlias("mch_id")
   protected String mchId;
-
   /**
    * <pre>
-   * 服务商模式下的子商户公众账号ID
-   * sub_appid
-   * 是
-   * String(32)
-   * wxd678efh567hg6787
-   * 微信分配的子商户公众账号ID
+   * 字段名：服务商模式下的子商户公众账号ID
+   * 变量名：sub_appid
+   * 是否必填：是
+   * 类型：String(32)
+   * 示例值：wxd678efh567hg6787
+   * 描述：微信分配的子商户公众账号ID
    * </pre>
    */
   @XStreamAlias("sub_appid")
   protected String subAppId;
-
   /**
    * <pre>
-   * 服务商模式下的子商户号
-   * sub_mch_id
-   * 是
-   * String(32)
-   * 1230000109
-   * 微信支付分配的子商户号，开发者模式下必填
+   * 字段名：服务商模式下的子商户号
+   * 变量名：sub_mch_id
+   * 是否必填：是
+   * 类型：String(32)
+   * 示例值：1230000109
+   * 描述：微信支付分配的子商户号，开发者模式下必填
    * </pre>
    */
   @XStreamAlias("sub_mch_id")
   protected String subMchId;
   /**
    * <pre>
-   * 随机字符串
-   * nonce_str
-   * 是
-   * String(32)
-   * 5K8264ILTKCH16CQ2502SI8ZNMTM67VS
-   * 随机字符串，不长于32位。推荐随机数生成算法
+   * 字段名：随机字符串
+   * 变量名：nonce_str
+   * 是否必填：是
+   * 类型：String(32)
+   * 示例值：5K8264ILTKCH16CQ2502SI8ZNMTM67VS
+   * 描述：随机字符串，不长于32位。推荐随机数生成算法
    * </pre>
    */
   @XStreamAlias("nonce_str")
   protected String nonceStr;
   /**
    * <pre>
-   * 签名
-   * sign
-   * 是
-   * String(32)
-   * C380BEC2BFD727A4B6845133519F3AD6
-   * 签名，详见签名生成算法
+   * 字段名：签名
+   * 变量名：sign
+   * 是否必填：是
+   * 类型：String(32)
+   * 示例值：C380BEC2BFD727A4B6845133519F3AD6
+   * 描述：签名，详见签名生成算法
    * </pre>
    */
   @XStreamAlias("sign")
   protected String sign;
+
+  /**
+   * <pre>
+   * 签名类型
+   * sign_type
+   * 否
+   * String(32)
+   * HMAC-SHA256
+   * 签名类型，目前支持HMAC-SHA256和MD5
+   * </pre>
+   */
+  @XStreamAlias("sign_type")
+  private String signType;
 
   /**
    * 将单位为元转换为单位为分
@@ -127,6 +116,26 @@ public abstract class WxPayBaseRequest {
   public static Integer yuanToFee(String yuan) {
     return new BigDecimal(yuan).setScale(2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).intValue();
   }
+
+  /**
+   * 检查请求参数内容，包括必填参数以及特殊约束
+   */
+  protected void checkFields() throws WxPayException {
+    //check required fields
+    try {
+      BeanUtils.checkRequiredFields(this);
+    } catch (WxErrorException e) {
+      throw new WxPayException(e.getError().getErrorMsg(), e);
+    }
+
+    //check other parameters
+    this.checkConstraints();
+  }
+
+  /**
+   * 检查约束情况
+   */
+  protected abstract void checkConstraints() throws WxPayException;
 
   public String getAppid() {
     return this.appid;
@@ -191,6 +200,14 @@ public abstract class WxPayBaseRequest {
     this.subMchId = subMchId;
   }
 
+  public String getSignType() {
+    return signType;
+  }
+
+  public void setSignType(String signType) {
+    this.signType = signType;
+  }
+
   @Override
   public String toString() {
     return ToStringUtils.toSimpleString(this);
@@ -209,9 +226,10 @@ public abstract class WxPayBaseRequest {
    * 2、补充系统参数，如果未传入则从配置里读取
    * 3、生成签名，并设置进去
    * </pre>
+   *
    * @param config 支付配置对象，用于读取相应系统配置信息
    */
-  public void checkAndSign(WxPayConfig config) throws WxErrorException {
+  public void checkAndSign(WxPayConfig config) throws WxPayException {
     this.checkFields();
 
     if (StringUtils.isBlank(getAppid())) {
@@ -227,15 +245,14 @@ public abstract class WxPayBaseRequest {
     }
 
     if (StringUtils.isBlank(getSubMchId())) {
-      this. setSubMchId(config.getSubMchId());
+      this.setSubMchId(config.getSubMchId());
     }
 
     if (StringUtils.isBlank(getNonceStr())) {
       this.setNonceStr(String.valueOf(System.currentTimeMillis()));
     }
-
     //设置签名字段的值
-    this.setSign(SignUtils.createSign(this, config.getMchKey()));
+    this.setSign(SignUtils.createSign(this, config.getMchKey(), this.signType));
   }
 
 }

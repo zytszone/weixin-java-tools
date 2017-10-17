@@ -10,8 +10,8 @@ import java.io.Serializable;
  * @author chanjarster
  */
 public class WxMpMassTagMessage implements Serializable {
-
   private static final long serialVersionUID = -6625914040986749286L;
+
   private Long tagId;
   private String msgType;
   private String content;
@@ -82,7 +82,6 @@ public class WxMpMassTagMessage implements Serializable {
   }
 
   /**
-   *
    * @param sendIgnoreReprint 文章被判定为转载时，是否继续进行群发操作。
    */
   public void setSendIgnoreReprint(boolean sendIgnoreReprint) {
@@ -97,7 +96,7 @@ public class WxMpMassTagMessage implements Serializable {
   }
 
   public void setSendAll(boolean sendAll) {
-    if(sendAll){
+    if (sendAll) {
       this.tagId = null;
     }
 

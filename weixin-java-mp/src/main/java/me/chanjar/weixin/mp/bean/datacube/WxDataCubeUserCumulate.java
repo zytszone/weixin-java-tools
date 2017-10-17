@@ -16,7 +16,6 @@ import java.util.List;
  * </pre>
  */
 public class WxDataCubeUserCumulate implements Serializable {
-
   private static final JsonParser JSON_PARSER = new JsonParser();
 
   private static final long serialVersionUID = -3570981300225093657L;
@@ -24,6 +23,13 @@ public class WxDataCubeUserCumulate implements Serializable {
   private Date refDate;
 
   private Integer cumulateUser;
+
+  public static List<WxDataCubeUserCumulate> fromJson(String json) {
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(
+      JSON_PARSER.parse(json).getAsJsonObject().get("list"),
+      new TypeToken<List<WxDataCubeUserCumulate>>() {
+      }.getType());
+  }
 
   public Date getRefDate() {
     return this.refDate;
@@ -44,12 +50,5 @@ public class WxDataCubeUserCumulate implements Serializable {
   @Override
   public String toString() {
     return ToStringUtils.toSimpleString(this);
-  }
-
-  public static List<WxDataCubeUserCumulate> fromJson(String json) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(
-        JSON_PARSER.parse(json).getAsJsonObject().get("list"),
-        new TypeToken<List<WxDataCubeUserCumulate>>() {
-        }.getType());
   }
 }

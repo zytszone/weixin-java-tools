@@ -43,6 +43,14 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
       messageJson.add("text", text);
     }
 
+    if (WxConsts.CUSTOM_MSG_TEXTCARD.equals(message.getMsgType())) {
+      JsonObject text = new JsonObject();
+      text.addProperty("title", message.getTitle());
+      text.addProperty("description", message.getDescription());
+      text.addProperty("url", message.getUrl());
+      messageJson.add("textcard", text);
+    }
+
     if (WxConsts.CUSTOM_MSG_IMAGE.equals(message.getMsgType())) {
       JsonObject image = new JsonObject();
       image.addProperty("media_id", message.getMediaId());
@@ -59,6 +67,10 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
       JsonObject voice = new JsonObject();
       voice.addProperty("media_id", message.getMediaId());
       messageJson.add("voice", voice);
+    }
+
+    if (StringUtils.isNotBlank(message.getSafe())) {
+      messageJson.addProperty("safe", message.getSafe());
     }
 
     if (WxConsts.CUSTOM_MSG_VIDEO.equals(message.getMsgType())) {
@@ -89,7 +101,7 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
       JsonObject newsJsonObject = new JsonObject();
       if (message.getMediaId() != null) {
         newsJsonObject.addProperty("media_id", message.getMediaId());
-      }else {
+      } else {
         JsonArray articleJsonArray = new JsonArray();
         for (MpnewsArticle article : message.getMpnewsArticles()) {
           JsonObject articleJson = new JsonObject();

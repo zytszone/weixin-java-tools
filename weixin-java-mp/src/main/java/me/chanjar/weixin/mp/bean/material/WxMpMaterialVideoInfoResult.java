@@ -5,14 +5,15 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import java.io.Serializable;
 
 public class WxMpMaterialVideoInfoResult implements Serializable {
-
-  /**
-   *
-   */
   private static final long serialVersionUID = 1269131745333792202L;
+
   private String title;
   private String description;
   private String downUrl;
+
+  public static WxMpMaterialVideoInfoResult fromJson(String json) {
+    return WxMpGsonBuilder.create().fromJson(json, WxMpMaterialVideoInfoResult.class);
+  }
 
   public String getTitle() {
     return this.title;
@@ -36,10 +37,6 @@ public class WxMpMaterialVideoInfoResult implements Serializable {
 
   public void setDownUrl(String downUrl) {
     this.downUrl = downUrl;
-  }
-
-  public static WxMpMaterialVideoInfoResult fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpMaterialVideoInfoResult.class);
   }
 
   @Override

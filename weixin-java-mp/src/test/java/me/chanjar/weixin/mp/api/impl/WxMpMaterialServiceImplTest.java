@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * 素材管理相关接口的测试
@@ -173,7 +175,7 @@ public class WxMpMaterialServiceImplTest {
     }
   }
 
-  @Test(dependsOnMethods = {"testAddNews"})
+  @Test(dependsOnMethods = {"testAddNews","testUploadMaterial"})
   public void testGetNewsInfo() throws WxErrorException {
     WxMpMaterialNews wxMpMaterialNewsSingle = this.wxService
       .getMaterialService().materialNewsInfo(this.singleNewsMediaId);
@@ -181,6 +183,9 @@ public class WxMpMaterialServiceImplTest {
       .getMaterialService().materialNewsInfo(this.multiNewsMediaId);
     assertNotNull(wxMpMaterialNewsSingle);
     assertNotNull(wxMpMaterialNewsMultiple);
+
+    System.out.println(wxMpMaterialNewsSingle);
+    System.out.println(wxMpMaterialNewsMultiple);
   }
 
   @Test(dependsOnMethods = {"testGetNewsInfo"})
