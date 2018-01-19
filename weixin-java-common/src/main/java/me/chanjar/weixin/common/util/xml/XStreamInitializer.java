@@ -34,6 +34,11 @@ public class XStreamInitializer {
             }
 
           }
+
+          @Override
+          public String encodeNode(String name) {
+            return name;//防止将_转换成__
+          }
         };
       }
     });

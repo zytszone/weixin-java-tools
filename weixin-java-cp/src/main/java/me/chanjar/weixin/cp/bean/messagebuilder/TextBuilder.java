@@ -15,7 +15,7 @@ public final class TextBuilder extends BaseBuilder<TextBuilder> {
   private String content;
 
   public TextBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_TEXT;
+    this.msgType = WxConsts.KefuMsgType.TEXT;
   }
 
   public TextBuilder content(String content) {
@@ -23,6 +23,7 @@ public final class TextBuilder extends BaseBuilder<TextBuilder> {
     return this;
   }
 
+  @Override
   public WxCpMessage build() {
     WxCpMessage m = super.build();
     m.setContent(this.content);

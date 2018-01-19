@@ -15,7 +15,7 @@ public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
   private String mediaId;
 
   public ImageBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_IMAGE;
+    this.msgType = WxConsts.KefuMsgType.IMAGE;
   }
 
   public ImageBuilder mediaId(String media_id) {
@@ -23,6 +23,7 @@ public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
     return this;
   }
 
+  @Override
   public WxCpMessage build() {
     WxCpMessage m = super.build();
     m.setMediaId(this.mediaId);

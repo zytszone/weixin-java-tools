@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import me.chanjar.weixin.mp.bean.kefu.request.WxMpKfAccountRequest;
 import me.chanjar.weixin.mp.bean.kefu.result.*;
 
@@ -8,14 +9,37 @@ import java.io.File;
 import java.util.Date;
 
 /**
+ * <pre>
  * 客服接口 ，
- * 命名采用kefu拼音的原因是：
- * 其英文CustomerService如果再加上Service后缀显得有点啰嗦，
- * 如果不加又显得表意不完整
+ * 注意：命名采用kefu拼音的原因是：其英文CustomerService如果再加上Service后缀显得有点啰嗦，如果不加又显得表意不完整。
+ * </pre>
  *
  * @author Binary Wang
  */
 public interface WxMpKefuService {
+  String MESSAGE_CUSTOM_SEND = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
+  String GET_KF_LIST = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist";
+  String GET_ONLINE_KF_LIST = "https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist";
+  String KFACCOUNT_ADD = "https://api.weixin.qq.com/customservice/kfaccount/add";
+  String KFACCOUNT_UPDATE = "https://api.weixin.qq.com/customservice/kfaccount/update";
+  String KFACCOUNT_INVITE_WORKER = "https://api.weixin.qq.com/customservice/kfaccount/inviteworker";
+  String KFACCOUNT_UPLOAD_HEAD_IMG = "https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?kf_account=%s";
+  String KFACCOUNT_DEL = "https://api.weixin.qq.com/customservice/kfaccount/del?kf_account=%s";
+  String KFSESSION_CREATE = "https://api.weixin.qq.com/customservice/kfsession/create";
+  String KFSESSION_CLOSE = "https://api.weixin.qq.com/customservice/kfsession/close";
+  String KFSESSION_GET_SESSION = "https://api.weixin.qq.com/customservice/kfsession/getsession?openid=%s";
+  String KFSESSION_GET_SESSION_LIST = "https://api.weixin.qq.com/customservice/kfsession/getsessionlist?kf_account=%s";
+  String KFSESSION_GET_WAIT_CASE = "https://api.weixin.qq.com/customservice/kfsession/getwaitcase";
+  String MSGRECORD_GET_MSG_LIST = "https://api.weixin.qq.com/customservice/msgrecord/getmsglist";
+
+  /**
+   * <pre>
+   * 发送客服消息
+   * 详情请见: <a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140547&token=&lang=zh_CN">发送客服消息</a>
+   * 接口url格式：https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN
+   * </pre>
+   */
+  boolean sendKefuMessage(WxMpKefuMessage message) throws WxErrorException;
 
   //*******************客服管理接口***********************//
 
@@ -68,11 +92,10 @@ public interface WxMpKefuService {
    * <pre>
    * 上传客服头像
    * 详情请见：<a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458044813&token=&lang=zh_CN">客服管理</a>
-   * 接口url格式：http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT
+   * 接口url格式：https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT
    * </pre>
    */
-  boolean kfAccountUploadHeadImg(String kfAccount, File imgFile)
-          throws WxErrorException;
+  boolean kfAccountUploadHeadImg(String kfAccount, File imgFile)    throws WxErrorException;
 
   /**
    * <pre>

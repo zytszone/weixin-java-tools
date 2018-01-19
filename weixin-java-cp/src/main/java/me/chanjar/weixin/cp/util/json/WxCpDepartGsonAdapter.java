@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
  */
 public class WxCpDepartGsonAdapter implements JsonSerializer<WxCpDepart>, JsonDeserializer<WxCpDepart> {
 
+  @Override
   public JsonElement serialize(WxCpDepart group, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject json = new JsonObject();
     if (group.getId() != null) {
@@ -36,8 +37,9 @@ public class WxCpDepartGsonAdapter implements JsonSerializer<WxCpDepart>, JsonDe
     return json;
   }
 
+  @Override
   public WxCpDepart deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-          throws JsonParseException {
+    throws JsonParseException {
     WxCpDepart depart = new WxCpDepart();
     JsonObject departJson = json.getAsJsonObject();
     if (departJson.get("id") != null && !departJson.get("id").isJsonNull()) {
@@ -47,7 +49,7 @@ public class WxCpDepartGsonAdapter implements JsonSerializer<WxCpDepart>, JsonDe
       depart.setName(GsonHelper.getAsString(departJson.get("name")));
     }
     if (departJson.get("order") != null && !departJson.get("order").isJsonNull()) {
-      depart.setOrder(GsonHelper.getAsInteger(departJson.get("order")));
+      depart.setOrder(GsonHelper.getAsLong(departJson.get("order")));
     }
     if (departJson.get("parentid") != null && !departJson.get("parentid").isJsonNull()) {
       depart.setParentId(GsonHelper.getAsInteger(departJson.get("parentid")));

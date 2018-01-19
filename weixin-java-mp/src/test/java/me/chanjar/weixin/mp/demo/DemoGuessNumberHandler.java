@@ -6,9 +6,9 @@ import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpMessageMatcher;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 
 import java.util.Map;
 import java.util.Random;
@@ -35,7 +35,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
 
   @Override
   public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService,
-      WxSessionManager sessionManager) throws WxErrorException {
+                                  WxSessionManager sessionManager) throws WxErrorException {
 
     if (isUserWantGuess(wxMessage)) {
       letsGo(wxMessage, wxMpService, sessionManager);
@@ -50,21 +50,21 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
   }
 
   protected void letsGo(WxMpXmlMessage wxMessage, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-    WxSession session = sessionManager.getSession(wxMessage.getFromUserName());
+    WxSession session = sessionManager.getSession(wxMessage.getFromUser());
     if (session.getAttribute("guessing") == null) {
-      WxMpCustomMessage m = WxMpCustomMessage
-          .TEXT()
-          .toUser(wxMessage.getFromUserName())
-          .content("请猜一个100以内的数字")
-          .build();
-      wxMpService.customMessageSend(m);
+      WxMpKefuMessage m = WxMpKefuMessage
+        .TEXT()
+        .toUser(wxMessage.getFromUser())
+        .content("请猜一个100以内的数字")
+        .build();
+      wxMpService.getKefuService().sendKefuMessage(m);
     } else {
-      WxMpCustomMessage m = WxMpCustomMessage
-          .TEXT()
-          .toUser(wxMessage.getFromUserName())
-          .content("放弃了吗？那请重新猜一个100以内的数字")
-          .build();
-      wxMpService.customMessageSend(m);
+      WxMpKefuMessage m = WxMpKefuMessage
+        .TEXT()
+        .toUser(wxMessage.getFromUser())
+        .content("放弃了吗？那请重新猜一个100以内的数字")
+        .build();
+      wxMpService.getKefuService().sendKefuMessage(m);
     }
 
     session.setAttribute("guessing", Boolean.TRUE);
@@ -74,7 +74,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
 
   protected void giveHint(WxMpXmlMessage wxMessage, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
 
-    WxSession session = sessionManager.getSession(wxMessage.getFromUserName());
+    WxSession session = sessionManager.getSession(wxMessage.getFromUser());
 
     if (session.getAttribute("guessing") == null) {
       return;
@@ -87,28 +87,28 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
     int answer = (Integer) session.getAttribute("number");
     int guessNumber = Integer.valueOf(wxMessage.getContent());
     if (guessNumber < answer) {
-      WxMpCustomMessage m = WxMpCustomMessage
-          .TEXT()
-          .toUser(wxMessage.getFromUserName())
-          .content("小了")
-          .build();
-      wxMpService.customMessageSend(m);
+      WxMpKefuMessage m = WxMpKefuMessage
+        .TEXT()
+        .toUser(wxMessage.getFromUser())
+        .content("小了")
+        .build();
+      wxMpService.getKefuService().sendKefuMessage(m);
 
     } else if (guessNumber > answer) {
-      WxMpCustomMessage m = WxMpCustomMessage
-          .TEXT()
-          .toUser(wxMessage.getFromUserName())
-          .content("大了")
-          .build();
-      wxMpService.customMessageSend(m);
+      WxMpKefuMessage m = WxMpKefuMessage
+        .TEXT()
+        .toUser(wxMessage.getFromUser())
+        .content("大了")
+        .build();
+      wxMpService.getKefuService().sendKefuMessage(m);
     } else {
-      WxMpCustomMessage m = WxMpCustomMessage
-          .TEXT()
-          .toUser(wxMessage.getFromUserName())
-          .content("Bingo!")
-          .build();
+      WxMpKefuMessage m = WxMpKefuMessage
+        .TEXT()
+        .toUser(wxMessage.getFromUser())
+        .content("Bingo!")
+        .build();
       session.removeAttribute("guessing");
-      wxMpService.customMessageSend(m);
+      wxMpService.getKefuService().sendKefuMessage(m);
     }
 
   }

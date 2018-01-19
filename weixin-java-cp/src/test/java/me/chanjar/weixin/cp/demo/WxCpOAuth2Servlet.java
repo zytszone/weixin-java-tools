@@ -3,7 +3,6 @@ package me.chanjar.weixin.cp.demo;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.cp.api.WxCpService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +10,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class WxCpOAuth2Servlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
 
   protected WxCpService wxCpService;
 
@@ -20,7 +20,7 @@ public class WxCpOAuth2Servlet extends HttpServlet {
 
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
+    throws IOException {
 
     response.setContentType("text/html;charset=utf-8");
     response.setStatus(HttpServletResponse.SC_OK);
@@ -30,7 +30,7 @@ public class WxCpOAuth2Servlet extends HttpServlet {
       response.getWriter().println("<h1>code</h1>");
       response.getWriter().println(code);
 
-      String[] res = wxCpService.oauth2getUserInfo(code);
+      String[] res = this.wxCpService.getOauth2Service().getUserInfo(code);
       response.getWriter().println("<h1>result</h1>");
       response.getWriter().println(Arrays.toString(res));
     } catch (WxErrorException e) {

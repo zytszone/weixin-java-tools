@@ -15,7 +15,7 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
   private String mediaId;
 
   public VoiceBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_VOICE;
+    this.msgType = WxConsts.KefuMsgType.VOICE;
   }
 
   public VoiceBuilder mediaId(String media_id) {
@@ -23,6 +23,7 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
     return this;
   }
 
+  @Override
   public WxCpMessage build() {
     WxCpMessage m = super.build();
     m.setMediaId(this.mediaId);

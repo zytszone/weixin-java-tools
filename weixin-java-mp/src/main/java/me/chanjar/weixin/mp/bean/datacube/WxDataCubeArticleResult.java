@@ -1,13 +1,24 @@
 package me.chanjar.weixin.mp.bean.datacube;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
+import java.util.List;
 
 /**
  * 图文分析数据接口返回结果对象
- * @author binarywang(https://github.com/binarywang)
- *         Created by Binary Wang on 2016/8/24.
+ * <p>
+ * Created by Binary Wang on 2016/8/24.
+ *
+ * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class WxDataCubeArticleResult extends WxDataCubeBaseResult {
+  private static final long serialVersionUID = -9222452497954511765L;
 
   /**
    * ref_hour
@@ -18,7 +29,9 @@ public class WxDataCubeArticleResult extends WxDataCubeBaseResult {
 
   /**
    * msgid
-   * 请注意：这里的msgid实际上是由msgid（图文消息id，这也就是群发接口调用后返回的msg_data_id）和index（消息次序索引）组成， 例如12003_3， 其中12003是msgid，即一次群发的消息的id； 3为index，假设该次群发的图文消息共5个文章（因为可能为多图文），3表示5个中的第3个
+   * 请注意：这里的msgid实际上是由msgid（图文消息id，这也就是群发接口调用后返回的msg_data_id）
+   * 和index（消息次序索引）组成， 例如12003_3， 其中12003是msgid，即一次群发的消息的id； 3为index，
+   * 假设该次群发的图文消息共5个文章（因为可能为多图文），3表示5个中的第3个
    */
   @SerializedName("msgid")
   private String msgId;
@@ -100,108 +113,11 @@ public class WxDataCubeArticleResult extends WxDataCubeBaseResult {
   @SerializedName("user_source")
   private Integer userSource;
 
-  public Integer getRefHour() {
-    return this.refHour;
+  public static List<WxDataCubeArticleResult> fromJson(String json) {
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(
+      JSON_PARSER.parse(json).getAsJsonObject().get("list"),
+      new TypeToken<List<WxDataCubeArticleResult>>() {
+      }.getType());
   }
 
-  public void setRefHour(Integer refHour) {
-    this.refHour = refHour;
-  }
-
-  public String getMsgId() {
-    return this.msgId;
-  }
-
-  public void setMsgId(String msgId) {
-    this.msgId = msgId;
-  }
-
-  public String getTitle() {
-    return this.title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public Integer getIntPageReadUser() {
-    return this.intPageReadUser;
-  }
-
-  public void setIntPageReadUser(Integer intPageReadUser) {
-    this.intPageReadUser = intPageReadUser;
-  }
-
-  public Integer getIntPageReadCount() {
-    return this.intPageReadCount;
-  }
-
-  public void setIntPageReadCount(Integer intPageReadCount) {
-    this.intPageReadCount = intPageReadCount;
-  }
-
-  public Integer getOriPageReadUser() {
-    return this.oriPageReadUser;
-  }
-
-  public void setOriPageReadUser(Integer oriPageReadUser) {
-    this.oriPageReadUser = oriPageReadUser;
-  }
-
-  public Integer getOriPageReadCount() {
-    return this.oriPageReadCount;
-  }
-
-  public void setOriPageReadCount(Integer oriPageReadCount) {
-    this.oriPageReadCount = oriPageReadCount;
-  }
-
-  public Integer getShareScene() {
-    return this.shareScene;
-  }
-
-  public void setShareScene(Integer shareScene) {
-    this.shareScene = shareScene;
-  }
-
-  public Integer getShareUser() {
-    return this.shareUser;
-  }
-
-  public void setShareUser(Integer shareUser) {
-    this.shareUser = shareUser;
-  }
-
-  public Integer getShareCount() {
-    return this.shareCount;
-  }
-
-  public void setShareCount(Integer shareCount) {
-    this.shareCount = shareCount;
-  }
-
-  public Integer getAddToFavUser() {
-    return this.addToFavUser;
-  }
-
-  public void setAddToFavUser(Integer addToFavUser) {
-    this.addToFavUser = addToFavUser;
-  }
-
-  public Integer getAddToFavCount() {
-    return this.addToFavCount;
-  }
-
-  public void setAddToFavCount(Integer addToFavCount) {
-    this.addToFavCount = addToFavCount;
-  }
-
-  public Integer getUserSource() {
-    return this.userSource;
-  }
-
-  public void setUserSource(Integer userSource) {
-    this.userSource = userSource;
-  }
-  
 }

@@ -1,5 +1,9 @@
 package me.chanjar.weixin.cp.bean;
 
+import lombok.Data;
+import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.cp.bean.article.MpnewsArticle;
+import me.chanjar.weixin.cp.bean.article.NewArticle;
 import me.chanjar.weixin.cp.bean.messagebuilder.*;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
@@ -8,16 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 消息
+ * 消息.
  *
  * @author Daniel Qian
  */
+@Data
 public class WxCpMessage implements Serializable {
+  private static final long serialVersionUID = -2082278303476631708L;
 
   private String toUser;
   private String toParty;
   private String toTag;
-  private String agentId;
+  private Integer agentId;
   private String msgType;
   private String content;
   private String mediaId;
@@ -27,218 +33,87 @@ public class WxCpMessage implements Serializable {
   private String musicUrl;
   private String hqMusicUrl;
   private String safe;
-  private List<WxArticle> articles = new ArrayList<WxArticle>();
+  private String url;
+  private List<NewArticle> articles = new ArrayList<>();
+  private List<MpnewsArticle> mpnewsArticles = new ArrayList<>();
 
   /**
-   * 获得文本消息builder
+   * 获得文本消息builder.
    */
   public static TextBuilder TEXT() {
     return new TextBuilder();
   }
 
   /**
-   * 获得图片消息builder
+   * 获得文本卡片消息builder.
+   */
+  public static TextCardBuilder TEXTCARD() {
+    return new TextCardBuilder();
+  }
+
+  /**
+   * 获得图片消息builder.
    */
   public static ImageBuilder IMAGE() {
     return new ImageBuilder();
   }
 
   /**
-   * 获得语音消息builder
+   * 获得语音消息builder.
    */
   public static VoiceBuilder VOICE() {
     return new VoiceBuilder();
   }
 
   /**
-   * 获得视频消息builder
+   * 获得视频消息builder.
    */
   public static VideoBuilder VIDEO() {
     return new VideoBuilder();
   }
 
   /**
-   * 获得图文消息builder
+   * 获得图文消息builder.
    */
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
   }
 
   /**
-   * 获得文件消息builder
+   * 获得mpnews图文消息builder.
+   */
+  public static MpnewsBuilder MPNEWS() {
+    return new MpnewsBuilder();
+  }
+
+  /**
+   * 获得文件消息builder.
    */
   public static FileBuilder FILE() {
     return new FileBuilder();
   }
 
-  public String getToUser() {
-    return toUser;
-  }
-
-  public void setToUser(String toUser) {
-    this.toUser = toUser;
-  }
-
-  public String getToParty() {
-    return toParty;
-  }
-
-  public void setToParty(String toParty) {
-    this.toParty = toParty;
-  }
-
-  public String getToTag() {
-    return toTag;
-  }
-
-  public void setToTag(String toTag) {
-    this.toTag = toTag;
-  }
-
-  public String getAgentId() {
-    return agentId;
-  }
-
-  public void setAgentId(String agentId) {
-    this.agentId = agentId;
-  }
-
-  public String getMsgType() {
-    return msgType;
-  }
 
   /**
    * <pre>
    * 请使用
-   * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_TEXT}
-   * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_IMAGE}
-   * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_VOICE}
-   * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_MUSIC}
-   * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_VIDEO}
-   * {@link me.chanjar.weixin.common.api.WxConsts#CUSTOM_MSG_NEWS}
+   * {@link WxConsts.KefuMsgType#TEXT}
+   * {@link WxConsts.KefuMsgType#IMAGE}
+   * {@link WxConsts.KefuMsgType#VOICE}
+   * {@link WxConsts.KefuMsgType#MUSIC}
+   * {@link WxConsts.KefuMsgType#VIDEO}
+   * {@link WxConsts.KefuMsgType#NEWS}
+   * {@link WxConsts.KefuMsgType#MPNEWS}
    * </pre>
    *
-   * @param msgType
+   * @param msgType 消息类型
    */
   public void setMsgType(String msgType) {
     this.msgType = msgType;
   }
 
-  public String getSafe() {
-    return safe;
-  }
-
-  public void setSafe(String safe) {
-    this.safe = safe;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
-
-  public String getMediaId() {
-    return mediaId;
-  }
-
-  public void setMediaId(String mediaId) {
-    this.mediaId = mediaId;
-  }
-
-  public String getThumbMediaId() {
-    return thumbMediaId;
-  }
-
-  public void setThumbMediaId(String thumbMediaId) {
-    this.thumbMediaId = thumbMediaId;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public String getMusicUrl() {
-    return musicUrl;
-  }
-
-  public void setMusicUrl(String musicUrl) {
-    this.musicUrl = musicUrl;
-  }
-
-  public String getHqMusicUrl() {
-    return hqMusicUrl;
-  }
-
-  public void setHqMusicUrl(String hqMusicUrl) {
-    this.hqMusicUrl = hqMusicUrl;
-  }
-
-  public List<WxArticle> getArticles() {
-    return articles;
-  }
-
-  public void setArticles(List<WxArticle> articles) {
-    this.articles = articles;
-  }
-
   public String toJson() {
     return WxCpGsonBuilder.INSTANCE.create().toJson(this);
-  }
-
-  public static class WxArticle {
-
-    private String title;
-    private String description;
-    private String url;
-    private String picUrl;
-
-    public String getTitle() {
-      return title;
-    }
-
-    public void setTitle(String title) {
-      this.title = title;
-    }
-
-    public String getDescription() {
-      return description;
-    }
-
-    public void setDescription(String description) {
-      this.description = description;
-    }
-
-    public String getUrl() {
-      return url;
-    }
-
-    public void setUrl(String url) {
-      this.url = url;
-    }
-
-    public String getPicUrl() {
-      return picUrl;
-    }
-
-    public void setPicUrl(String picUrl) {
-      this.picUrl = picUrl;
-    }
-
   }
 
 }
