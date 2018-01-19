@@ -314,6 +314,93 @@
         </plugins>
       </build>
     </profile>
+
+    <profile>
+      <id>wym-nexus</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>wym-nexus</id>
+          <name>微医美私库</name>
+          <url>http://192.168.0.70:8081/nexus/content/groups/public/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>interval:60</updatePolicy>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>wym-nexus</id>
+          <name>微医美私库</name>
+          <url>http://192.168.0.70:8081/nexus/content/groups/public/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>interval:60</updatePolicy>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+
+
+    <profile>
+      <id>wym-release</id>
+      <distributionManagement>
+        <repository>
+          <id>wym-release-repository</id>
+          <name>微医美发布仓库</name>
+          <url>http://192.168.0.70:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+          <id>wym-snapshot-repository</id>
+          <name>微医美快照仓库</name>
+          <url>http://192.168.0.70:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+      </distributionManagement>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.2.1</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.9.1</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <additionalparam>${javadoc.opts}</additionalparam>
+              <charset>UTF-8</charset>
+              <locale>zh_CN</locale>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
   <build>
@@ -331,17 +418,6 @@
     </pluginManagement>
 
     <plugins>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.3</version>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>ossrh</serverId>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>true</autoReleaseAfterClose>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
