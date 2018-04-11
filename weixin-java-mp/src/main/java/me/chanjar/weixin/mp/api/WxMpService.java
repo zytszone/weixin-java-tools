@@ -58,7 +58,7 @@ public interface WxMpService {
   /**
    * oauth2授权的url连接
    */
-  String CONNECT_OAUTH2_AUTHORIZE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect";
+  String CONNECT_OAUTH2_AUTHORIZE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s&connect_redirect=1#wechat_redirect";
 
   /**
    * 获取公众号的自动回复规则
@@ -90,7 +90,7 @@ public interface WxMpService {
    * 获取access_token，本方法线程安全
    * 且在多线程同时刷新时只刷新一次，避免超出2000次/日的调用次数上限
    *
-   * 另：本service的所有方法都会在access_token过期是调用此方法
+   * 另：本service的所有方法都会在access_token过期时调用此方法
    *
    * 程序员在非必要情况下尽量不要主动调用此方法
    *
@@ -362,6 +362,13 @@ public interface WxMpService {
    * @return WxMpTemplateMsgService
    */
   WxMpTemplateMsgService getTemplateMsgService();
+
+  /**
+   * 返回一次性订阅消息相关接口方法的实现类对象，以方便调用其各个接口
+   *
+   * @return WxMpSubscribeMsgService
+   */
+  WxMpSubscribeMsgService getSubscribeMsgService();
 
   /**
    * 返回硬件平台相关接口方法的实现类对象，以方便调用其各个接口
